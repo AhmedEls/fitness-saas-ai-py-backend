@@ -19,7 +19,7 @@ def index():
     return send_file('web/index.html')
 
 
-@app.route("/api/generate", methods=["POST"])
+@app.route("/api/generate", methods=["GET"])
 def generate_api():
     if request.method == "POST":
         if os.environ["GOOGLE_API_KEY"] == 'TODO':
