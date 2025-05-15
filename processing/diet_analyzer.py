@@ -14,30 +14,29 @@ def analyze_diet_logs(diet_logs, target_calories=None, target_protein=None, targ
         dict: A dictionary containing insights from the diet log analysis.
               For now, this will be a basic representation.
     """
+
     if not isinstance(diet_logs, list):
         raise ProcessingError("Diet logs data is not in the expected list format.")
 
     try:
         # Sort logs by date for time-based analysis
         # Use 'created_at' for sorting as 'log_date' might be null
-        diet_logs.sort(key=lambda x: datetime.strptime(x.get('created_at'), '%Y-%m-%dT%H:%M:%S.%fZ') if x.get('created_at') else datetime.min)
+ diet_logs.sort(key=lambda x: datetime.strptime(x.get('created_at'), '%Y-%m-%dT%H:%M:%S.%fZ') if x.get('created_at') else datetime.min)
 
         analysis_results = {
-            "total_calories": 0,
-            "total_protein": 0,
-            "total_carbs": 0,
-            "total_fats": 0,
-            "compliance_rate": 0,
-            "meal_type_distribution": {},
-            "notes_summary": [],
-            "food_name_counts": {},
-            "average_daily_calories": 0,
-            "average_daily_protein": 0,
-            "average_daily_carbs": 0,
-            "average_daily_fats": 0,
-    "food_name_counts": {} # Added for food item frequency
+ "total_calories": 0,
+ "total_protein": 0,
+ "total_carbs": 0,
+ "total_fats": 0,
+ "compliance_rate": 0,
+ "meal_type_distribution": {},
+ "notes_summary": [],
+ "average_daily_calories": 0,
+ "average_daily_protein": 0,
+ "average_daily_carbs": 0,
+ "average_daily_fats": 0,
+ "food_name_counts": {}  # Added for food item frequency
         }
-
     if not diet_logs:
         return analysis_results
 
@@ -46,15 +45,15 @@ def analyze_diet_logs(diet_logs, target_calories=None, target_protein=None, targ
     meal_type_counts = defaultdict(int)
     food_name_counts = defaultdict(int)
     daily_intake = defaultdict(lambda: defaultdict(float))
+    for log in diet_logs:
 
-        for log in diet_logs:
             if not isinstance(log, dict):
                 # Skip or log malformed individual log entries
                 continue
 
-        # Basic aggregation of macros and calories
+ # Basic aggregation of macros and calories
             analysis_results["total_calories"] += log.get("calories", 0) or 0
-            analysis_results["total_protein"] += log.get("protein", 0) or 0
+ analysis_results["total_protein"] += log.get("protein", 0) or 0
         analysis_results["total_carbs"] += log.get("carbs", 0) or 0
         analysis_results["total_fats"] += log.get("fats", 0) or 0
         
@@ -74,13 +73,13 @@ def analyze_diet_logs(diet_logs, target_calories=None, target_protein=None, targ
                 pass
 
         # Compliance check
-        if log.get("compliance") is True:
+ if log.get("compliance") is True:
                 compliant_logs += 1
         # If compliance is False, note it
-        elif log.get("compliance") is False:
+ elif log.get("compliance") is False:
                 analysis_results["notes_summary"].append(f"Non-compliant entry on {log.get('log_date')}: {log.get('notes', 'No specific notes.')}")
 
-        # Meal type counting
+ # Meal type counting
             meal_type = log.get("meal_type")
         if meal_type:
             meal_type_counts[meal_type] += 1
@@ -88,7 +87,7 @@ def analyze_diet_logs(diet_logs, target_calories=None, target_protein=None, targ
         # Food name counting
             food_name = log.get("food_name")
         if food_name: food_name_counts[food_name] += 1
-            
+
         # Notes summary
         if log.get("notes"):
             analysis_results["notes_summary"].append(log["notes"])
@@ -116,7 +115,7 @@ def analyze_diet_logs(diet_logs, target_calories=None, target_protein=None, targ
     if target_carbs is not None:
         analysis_results["carbs_vs_target"] = analysis_results["average_daily_carbs"] - target_carbs
         if target_fats is not None:
-        analysis_results["fats_vs_target"] = analysis_results["average_daily_fats"] - target_fats
+ analysis_results["fats_vs_target"] = analysis_results["average_daily_fats"] - target_fats
 
         # Store food name counts
         analysis_results["food_name_counts"] = food_name_counts

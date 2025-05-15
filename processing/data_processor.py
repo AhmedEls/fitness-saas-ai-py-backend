@@ -32,28 +32,28 @@ def process_trainee_data(trainee_data):
     except Exception as e:
         raise ProcessingError(f"Error during analysis: {e}") from e
 
-    # Combine the analysis results. The structure of this combined result
-    # can be refined based on what the suggestion generator needs.
-    combined_analysis = {
-        'workout_analysis': workout_analysis,
-        'diet_analysis': diet_analysis
+ # Combine the analysis results. The structure of this combined result
+ # can be refined based on what the suggestion generator needs.
+ combined_analysis = {
+ 'workout_analysis': workout_analysis,
+ 'diet_analysis': diet_analysis
     }
 
     return combined_analysis
 
 if __name__ == '__main__':
-    # Example usage (for testing purposes)
-    sample_trainee_data = {
-        'workout_logs': [
-            # Sample workout log data based on your schema
-            {'completion_status': 'completed', 'created_at': '...', 'id': '...', 'notes': 'Feeling strong', 'perceived_exertion': 7, 'reps_per_set': [10, 10, 10], 'sets_completed': 3, 'trainee_id': 'trainee1', 'updated_at': '...', 'weight_per_set': [100, 105, 105], 'workout_date': '2023-10-26', 'workout_exercise_id': '...'},
-            # Add more sample workout logs
-        ],
-        'diet_logs': [
-            # Sample diet log data based on your schema
-            {'calories': 2000, 'carbs': 250, 'compliance': True, 'created_at': '...', 'diet_item_id': '...', 'fats': 70, 'food_name': 'Chicken Breast', 'id': '...', 'log_date': '2023-10-26', 'meal_type': 'Lunch', 'notes': '...', 'protein': 150, 'quantity': '150g', 'trainee_id': 'trainee1', 'updated_at': '...'},
-            # Add more sample diet logs
-        ]
+ # Example usage (for testing purposes)
+ sample_trainee_data = {
+ 'workout_logs': [
+ # Sample workout log data based on your schema
+ {'completion_status': 'completed', 'created_at': '...', 'id': '...', 'notes': 'Feeling strong', 'perceived_exertion': 7, 'reps_per_set': [10, 10, 10], 'sets_completed': 3, 'trainee_id': 'trainee1', 'updated_at': '...', 'weight_per_set': [100, 105, 105], 'workout_date': '2023-10-26', 'workout_exercise_id': '...'},
+ # Add more sample workout logs
+ ],
+ 'diet_logs': [
+ # Sample diet log data based on your schema
+ {'calories': 2000, 'carbs': 250, 'compliance': True, 'created_at': '...', 'diet_item_id': '...', 'fats': 70, 'food_name': 'Chicken Breast', 'id': '...', 'log_date': '2023-10-26', 'meal_type': 'Lunch', 'notes': '...', 'protein': 150, 'quantity': '150g', 'trainee_id': 'trainee1', 'updated_at': '...'},
+ # Add more sample diet logs
+ ]
     }
 
     analyzed_data = process_trainee_data(sample_trainee_data)

@@ -19,23 +19,22 @@ def process_logs():
     """
     # API Key authentication
     provided_api_key = request.headers.get('X-API-Key')
-    if not provided_api_key or provided_api_key != API_KEY:
-        return jsonify({"error": "Unauthorized: Invalid or missing API key"}), 401
+ if not provided_api_key or provided_api_key != API_KEY:
+ return jsonify({"error": "Unauthorized: Invalid or missing API key"}), 401
 
     # Validate incoming JSON data
-    try:
-        data = request.get_json()
-        if data is None:
-
-            return jsonify({"error": "Invalid JSON data"}), 400
+ try:
+ data = request.get_json()
+ if data is None:
+ return jsonify({"error": "Invalid JSON data"}), 400
 
  # Ensure the top level data is a dictionary
-        if not isinstance(data, dict):
+ if not isinstance(data, dict):
  return jsonify({"error": "Invalid data structure: Top level should be a dictionary with trainee_ids as keys"}), 400
 
-        suggestions_by_trainee = {}
+ suggestions_by_trainee = {}
 
-        for trainee_id, trainee_data in data.items():
+ for trainee_id, trainee_data in data.items():
  # Validate trainee data structure
  if not isinstance(trainee_data, dict):
  suggestions_by_trainee[trainee_id] = {"error": "Invalid data structure for trainee"}
