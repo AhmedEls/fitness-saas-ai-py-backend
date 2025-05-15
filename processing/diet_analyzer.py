@@ -64,49 +64,49 @@ def analyze_diet_logs(
                 # Skip or log malformed individual log entries
                 continue
 
-        # Basic aggregation of macros and calories
-        analysis_results["total_calories"] += log.get("calories", 0) or 0
-        analysis_results["total_protein"] += log.get("protein", 0) or 0
-        analysis_results["total_carbs"] += log.get("carbs", 0) or 0
-        analysis_results["total_fats"] += log.get("fats", 0) or 0
+            # Basic aggregation of macros and calories
+            analysis_results["total_calories"] += log.get("calories", 0) or 0
+            analysis_results["total_protein"] += log.get("protein", 0) or 0
+            analysis_results["total_carbs"] += log.get("carbs", 0) or 0
+            analysis_results["total_fats"] += log.get("fats", 0) or 0
 
-        # Aggregate daily intake for averages
-        log_date_str = log.get("log_date")
-        if log_date_str:
-            # Assuming log_date is in 'YYYY-MM-DD' format or similar
-            # You might need to adjust the date parsing based on your actual schema
-            try:
-                log_date = datetime.strptime(log_date_str, "%Y-%m-%d").date()
-                daily_intake[log_date]["calories"] += log.get("calories", 0) or 0
-                daily_intake[log_date]["protein"] += log.get("protein", 0) or 0
-                daily_intake[log_date]["carbs"] += log.get("carbs", 0) or 0
-                daily_intake[log_date]["fats"] += log.get("fats", 0) or 0
-            except ValueError:
-                # Handle potential date parsing errors
-                pass
+            # Aggregate daily intake for averages
+            log_date_str = log.get("log_date")
+            if log_date_str:
+                # Assuming log_date is in 'YYYY-MM-DD' format or similar
+                # You might need to adjust the date parsing based on your actual schema
+                try:
+                    log_date = datetime.strptime(log_date_str, "%Y-%m-%d").date()
+                    daily_intake[log_date]["calories"] += log.get("calories", 0) or 0
+                    daily_intake[log_date]["protein"] += log.get("protein", 0) or 0
+                    daily_intake[log_date]["carbs"] += log.get("carbs", 0) or 0
+                    daily_intake[log_date]["fats"] += log.get("fats", 0) or 0
+                except ValueError:
+                    # Handle potential date parsing errors
+                    pass
 
-        # Compliance check
-        if log.get("compliance") is True:
-            compliant_logs += 1
-        # If compliance is False, note it
-        elif log.get("compliance") is False:
-            analysis_results["notes_summary"].append(
-                f"Non-compliant entry on {log.get('log_date')}: {log.get('notes', 'No specific notes.')}"
-            )
+            # Compliance check
+            if log.get("compliance") is True:
+                compliant_logs += 1
+            # If compliance is False, note it
+            elif log.get("compliance") is False:
+                analysis_results["notes_summary"].append(
+                    f"Non-compliant entry on {log.get('log_date')}: {log.get('notes', 'No specific notes.')}"
+                )
 
-        # Meal type counting
-        meal_type = log.get("meal_type")
-        if meal_type:
-            meal_type_counts[meal_type] += 1
+            # Meal type counting
+            meal_type = log.get("meal_type")
+            if meal_type:
+                meal_type_counts[meal_type] += 1
 
-            # Food name counting
-            food_name = log.get("food_name")
-        if food_name:
-            food_name_counts[food_name] += 1
+                # Food name counting
+                food_name = log.get("food_name")
+            if food_name:
+                food_name_counts[food_name] += 1
 
-        # Notes summary
-        if log.get("notes"):
-            analysis_results["notes_summary"].append(log["notes"])
+            # Notes summary
+            if log.get("notes"):
+                analysis_results["notes_summary"].append(log["notes"])
 
         # Calculate compliance rate
         if total_logs > 0:
@@ -149,10 +149,10 @@ def analyze_diet_logs(
                 analysis_results["average_daily_fats"] - target_fats
             )
 
-            # Store food name counts
-            analysis_results["food_name_counts"] = food_name_counts
+        # Store food name counts
+        analysis_results["food_name_counts"] = food_name_counts
 
-            return analysis_results
+        return analysis_results
 
     except Exception as e:
         raise ProcessingError(f"Error analyzing diet logs: {e}") from e
