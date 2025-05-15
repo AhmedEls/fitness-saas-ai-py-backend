@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 import logging
+import os
+from dotenv import load_dotenv
 
 # Import processing and suggestion modules
 from processing.data_processor import process_trainee_data
 from suggestions.suggestion_generator import generate_suggestions
 from exceptions import AppException, ProcessingError, SuggestionGenerationError
 
+load_dotenv() # Load environment variables from .env file
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 
@@ -19,7 +22,7 @@ def process_logs():
     """
     # API Key authentication
     provided_api_key = request.headers.get('X-API-Key')
- if not provided_api_key or provided_api_key != API_KEY:
+    if not provided_api_key or provided_api_key != os.getenv('SECRET_API_KEY'):
  return jsonify({"error": "Unauthorized: Invalid or missing API key"}), 401
 
     # Validate incoming JSON data

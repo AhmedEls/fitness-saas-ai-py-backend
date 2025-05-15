@@ -6,5 +6,6 @@ autopep8
 langchain_core
 langchain-google-genai # This package contains the LangChain integrations for the Gemini API.
 Pillow # PIL image-loading library
+python-dotenv
 Flask
 flask
